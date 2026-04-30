@@ -1,5 +1,6 @@
 package com.dev.eventshq.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class Category {
     @Setter
     private String description;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     @Getter
     private List<Activity> activities = new ArrayList<>();

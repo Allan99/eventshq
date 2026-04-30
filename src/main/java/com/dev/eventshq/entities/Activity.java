@@ -26,7 +26,7 @@ public class Activity {
     @Setter
     private Double price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "category_id")
     @Getter
     @Setter
@@ -34,7 +34,7 @@ public class Activity {
 
     @OneToMany(mappedBy = "activity")
     @Getter
-    private List<Block> blocks = new ArrayList<>();
+    private List<Block> blockList = new ArrayList<>();
 
     @ManyToMany(mappedBy = "activities")
     @Getter
