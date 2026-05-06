@@ -4,6 +4,8 @@ import com.dev.eventshq.entities.Attendee;
 import com.dev.eventshq.entities.Block;
 import com.dev.eventshq.entities.Category;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,12 +21,16 @@ public class ActivityDTO {
     private Long id;
     @Getter
     @Setter
+    @NotBlank(message = "Name field cannot be empty")
     private String name;
     @Getter
     @Setter
+    @NotBlank(message = "Description field cannot be empty")
     private String description;
     @Getter
     @Setter
+    @NotBlank(message = "Price field cannot be empty")
+    @Positive(message = "Price field has to be positive")
     private Double price;
 
     @Getter
