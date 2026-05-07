@@ -2,6 +2,7 @@ package com.dev.eventshq.controllers;
 
 import com.dev.eventshq.dto.BlockDTO;
 import com.dev.eventshq.services.BlockService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,7 @@ public class BlockController {
     }
 
     @PostMapping
-    public ResponseEntity<BlockDTO> insert(@RequestBody BlockDTO dto){
+    public ResponseEntity<BlockDTO> insert(@Valid @RequestBody BlockDTO dto){
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
@@ -40,7 +41,7 @@ public class BlockController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<BlockDTO> update(@PathVariable Long id,
-                                           @RequestBody BlockDTO dto){
+                                           @Valid @RequestBody BlockDTO dto){
         dto = service.update(id, dto);
         return ResponseEntity.ok(dto);
     }

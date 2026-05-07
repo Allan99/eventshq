@@ -2,6 +2,7 @@ package com.dev.eventshq.controllers;
 
 import com.dev.eventshq.dto.ActivityDTO;
 import com.dev.eventshq.services.ActivityService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,11 +32,18 @@ public class ActivityController {
     }
 
     @PostMapping
-    public ResponseEntity<ActivityDTO> insert(@RequestBody ActivityDTO dto){
+    public ResponseEntity<ActivityDTO> insert(@Valid @RequestBody ActivityDTO dto){
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<ActivityDTO> update(@PathVariable Long id,
+                                              @Valid @RequestBody ActivityDTO dto){
+        dto = service.update(id, dto);
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping(value = "/{id}")

@@ -2,6 +2,7 @@ package com.dev.eventshq.controllers;
 
 import com.dev.eventshq.dto.AttendeeDTO;
 import com.dev.eventshq.services.AttendeeService;
+import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,7 +33,7 @@ public class AttendeeController {
     }
 
     @PostMapping
-    public ResponseEntity<AttendeeDTO> insert(@RequestBody AttendeeDTO dto){
+    public ResponseEntity<AttendeeDTO> insert(@Valid @RequestBody AttendeeDTO dto){
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
@@ -41,7 +42,7 @@ public class AttendeeController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<AttendeeDTO> update(@PathVariable Long id,
-                                              @RequestBody AttendeeDTO dto){
+                                              @Valid @RequestBody AttendeeDTO dto){
         dto = service.update(id, dto);
         return ResponseEntity.ok(dto);
     }

@@ -5,6 +5,7 @@ import com.dev.eventshq.entities.Activity;
 import com.dev.eventshq.repositories.ActivityRepository;
 import com.dev.eventshq.services.exceptions.DatabaseException;
 import com.dev.eventshq.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -46,6 +47,21 @@ public class ActivityService {
         activity.setCategory(dto.getCategory());
         activity = repository.save(activity);
         return modelMapper.map(activity, ActivityDTO.class);
+    }
+
+    @Transactional
+    public ActivityDTO update(Long id, ActivityDTO dto){
+        try{
+            Activity activity = repository.getReferenceById(id);
+            activity.setName(dto.getName());
+            activity.setDescription(dto.getDescription());
+            activity.setPrice(dto.getPrice());
+            activity.setCategory(dto.getCategory());
+            activity = repository.save(activity);
+            return modelMapper.map(activity, ActivityDTO.class);
+        }catch(EntityNotFoundException e){
+            throw new ResourceNotFoundException("Resource not found");
+        }
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
